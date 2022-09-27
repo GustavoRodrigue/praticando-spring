@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,6 +50,22 @@ public class UsuarioControler {
 		Usuario usuario = usuarioRepository.findById(idUser).get();
 		
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+		
+	}
+	
+	
+	
+	@PutMapping(value = "atualizar")
+	@ResponseBody
+	public ResponseEntity<?> atualizar(@RequestBody Usuario usuario){
+		
+		if(usuario.getId() == null) {
+			return new ResponseEntity<String>("Id não foi informado para atualizar.", HttpStatus.OK);
+		}
+		
+		Usuario user = usuarioRepository.saveAndFlush(usuario);
+    	
+    	return new ResponseEntity<Usuario>(user, HttpStatus.OK);
 		
 	}
 	
