@@ -77,13 +77,21 @@ public class UsuarioControler {
 	public ResponseEntity<String> delete(@RequestParam Integer idUser){
 		
 		Optional<Usuario> obj = usuarioRepository.findById(idUser);
-			
-		
 
 		usuarioRepository.deleteById(idUser);
 		
 		return new ResponseEntity<String>("Usuario deletado com sucesso!", HttpStatus.OK);
 		
 	}
+	
+	@GetMapping(value = "buscarPorNome") /*mapeia a url*/
+    @ResponseBody /* descrição da resposta*/
+    public ResponseEntity<List<Usuario>> buscarPorNome (@RequestParam(name="name") String name){ /*recebe os dados para consultar*/
+    	
+    	List<Usuario> usuario =  usuarioRepository.BuscaPorNome(name.trim().toUpperCase());
+    	
+    	return new ResponseEntity<List<Usuario>>(usuario, HttpStatus.OK);
+    	
+    }
 	
 }
