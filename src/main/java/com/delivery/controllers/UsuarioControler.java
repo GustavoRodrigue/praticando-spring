@@ -1,10 +1,13 @@
 package com.delivery.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +69,20 @@ public class UsuarioControler {
 		Usuario user = usuarioRepository.saveAndFlush(usuario);
     	
     	return new ResponseEntity<Usuario>(user, HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping(value = "delete")
+	@ResponseBody
+	public ResponseEntity<String> delete(@RequestParam Integer idUser){
+		
+		Optional<Usuario> obj = usuarioRepository.findById(idUser);
+			
+		
+
+		usuarioRepository.deleteById(idUser);
+		
+		return new ResponseEntity<String>("Usuario deletado com sucesso!", HttpStatus.OK);
 		
 	}
 	
